@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+</head>
+<body>
+    <!-- 
+        post 방식으로 요청을 보낸다
+            -> 데이터를 body 영역에 담아서 보내겠다
+    -->
+    <form action="http://localhost:3006" method="post">
+        이름 : <input name="name">
+        <br>
+        HTML 점수 : <input name="html">
+        <br>
+        CSS 점수 : <input name="css">
+        <br>
+        NodeJS 점수 : <input name="nodejs">
+        <br>
+        ANDROID 점수 : <input name="android">
+        <br>
+        <button>학점 확인하기</button>
+    </form>
+</body>
+</html>

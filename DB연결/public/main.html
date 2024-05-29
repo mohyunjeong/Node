@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DB 연결</title>
+</head>
+<body>
+    <h1>DB에 접근하여서 데이터를 조회, 삽입, 삭제</h1>
+    <button onclick="selectData()">데이터 조회</button>
+    <button onclick="insertData()">데이터 삽입</button>
+    <button onclick="deleteData()">데이터 삭제</button>
+
+    <hr>
+    <h3>회원가입</h3>
+    ID : <input type="text" id="id"><br>
+    PW : <input type="text" id="pw"><br>
+    NICK : <input type="text" id="nick"><br>
+
+    <hr>
+    <h3>회원삭제</h3>
+    ID : <input type="text" id="deleteId">
+
+    <script>
+        const insertData = () => {
+            // id, pw, nick
+            let id = document.getElementById('id').value
+            let pw = document.getElementById('pw').value
+            let nick = document.getElementById('nick').value
+
+            // // get 방식
+            // // http://localhost:3016/insert?id=id&pw=pw&nick=nick
+            // // ID : smhrd, PW : 123, NICK : Minsu
+            // let url = `http://localhost:3016/insert?id=${id}&pw=${pw}&nick=${nick}` // url에 쿼리스트링으로 선언해 줘야지 가져올 수 있음!
+            // fetch(url).then((res) => res.json()).then((res) => console.log(res))
+            
+            // post 방식
+            // http://localhost:3016/insert
+            let url = `http://localhost:3000/insert`
+            //fetch 를 통한 post 방식 데이터 전송
+            fetch(url,{
+                method: "POST",
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                //데이터를 JSON 객체로 변환해서 body 안에 담아주겠다
+                body:JSON.stringify({
+                    id:id,
+                    pw:pw,
+                    nick:nick
+                })
+            })
+            .then((res) => res.json())
+            .then((res) => console.log(res))
+
+
+            // // http://localhost:3016/insert
+            // // ID : smhrd, PW : 123, NICK : Minsu
+            // let url = "http://localhost:3016/insert"
+            // fetch(url).then((res) => res.json()).then((res) => console.log(res))
+        }
+
+        const deleteData = () => {
+            let deleteId = document.getElementById('deleteId').value
+
+            let url = `http://localhost:3016/delete?id=${deleteId}`
+            fetch(url)
+            .then((res) => res.json())
+            .then((res) => {
+                console.log(res)
+                if (res.data == 1) {
+                    alert("삭제 성공!");
+                } else {
+                    alert("삭제 실패!");
+                }
+            })
+
+            // // http://localhost:3016/delete
+            // // nodejs_member 테이블의 데이터 중 ID 가 "smhrd"인 회원을 삭제 해주세요!
+            // // 삭제 성공 -> alert('성공')
+            // // 삭제 실패 -> alert('실패')
+            // let url = "http://localhost:3016/delete"
+            // fetch(url)
+            // .then((res) => res.json())
+            // .then((res) => {
+            //     console.log(res)
+            //     if (res.data == 1) {
+            //         alert("삭제 성공!");
+            //     } else {
+            //         alert("삭제 실패!");
+            //     }
+            // })
+        }
+
+        const selectData = () => {
+            console.log("DB 조회 실행");
+            // 비동기 방식으로 node 에게 데이터를 요청
+            // router 에게 특정 경로로 접근하면, DB에 들어가서 데이터를 꺼내와!
+            // ajax(제이쿼리), axios, fetch(순수 자바스크립트)
+            let url = "http://localhost:3016/select"
+            fetch(url).then((res) => res.json()).then((res) => console.log(res)) // fetch는 json으로 객체 변환이 필요함!
+        }
+    </script>
+</body>
+</html>
